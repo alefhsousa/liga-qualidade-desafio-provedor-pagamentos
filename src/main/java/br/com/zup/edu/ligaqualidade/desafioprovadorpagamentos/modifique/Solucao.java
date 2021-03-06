@@ -1,7 +1,10 @@
 package br.com.zup.edu.ligaqualidade.desafioprovadorpagamentos.modifique;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Solucao {
 
@@ -32,10 +35,13 @@ public class Solucao {
 	 * É esperado que o retorno respeite a ordem de recebimento
 	 */
 	public static List<String[]> executa(List<String> infoTransacoes, List<String> infoAdiantamentos) {
-		
-		return List.of(new String[][] { 
-					 {"pago","200","194","04/03/2021"} 					 
-					}); 
+
+		return new MapeadorTransacao(",")
+				.paraTransacao(infoTransacoes)
+				.stream()
+				.map(Transacao::paraRecebivel)
+				.map(Recebivel::paraArrayString)
+				.collect(Collectors.toList());
 	}
 
 }
